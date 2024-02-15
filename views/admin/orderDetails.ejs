@@ -1,0 +1,326 @@
+<%- include('../adminLayout/header.ejs',{adminSession}) %>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+    <section class="content-main" style="margin-top: 80px; margin-left: 40px; margin-right: 40px;">
+        <div class="content-header">
+            <div>
+                <h2 class="content-title card-title">Order details</h2>
+
+            </div>
+        </div>
+        <div class="card">
+            <header class="card-header">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 col-md-6 mb-lg-0 mb-15">
+                        <span>
+                            <i class="material-icons md-calendar_today"></i>Placed On: <b style="color: red;">
+                                <%= order.createdOn %>
+                            </b>
+                        </span> <br>
+                        <small class="text-muted">Order ID: <span style="color: green;">
+                                <%= order._id %>
+                            </span></small>
+                    </div>
+                    <div class="col-lg-6 col-md-6 ms-auto text-md-end">
+                       <!-- ,,..................................................removed from here -->
+                    </div>
+                </div>
+            </header> <!-- card-header end// -->
+            <div class="card-body">
+                <div class="row mb-50 mt-20 order-info-wrap">
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-person"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Customer</h6>
+                                <p class="mb-1">
+                                    <%= user.username %> <br>
+                                        <%= user.email %> <br> +91,<%= user.mobile %>
+                                </p>
+
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-local_shipping"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Order info</h6>
+                                <p class="mb-1">
+                                    Shipping: <%= order.address[0].addressType %> <br> Pay method: <%= order.payment %>
+                                           
+                                </p>
+                                <!-- <a href="#">Download info</a> -->
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                    <div class="col-md-4">
+                        <article class="icontext align-items-start">
+                            <span class="icon icon-sm rounded-circle bg-primary-light">
+                                <i class="text-primary material-icons md-place"></i>
+                            </span>
+                            <div class="text">
+                                <h6 class="mb-1">Deliver to</h6>
+                                <p class="mb-1">
+                                    City:<%= order.address[0].city %> <br>
+                                        <%= order.address[0].landMark %> <br> Po Box : <%= order.address[0].pinCode %>
+                                </p>
+
+                            </div>
+                        </article>
+                    </div> <!-- col// -->
+                </div> <!-- row // -->
+                <div class="row">
+                    <div class="col-lg-7">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th width="40%">Product</th>
+                                        <th width="20%">Unit Price</th>
+                                        <th width="20%">Quantity</th>
+                                        <th width="20%">Weigth</th>
+                                        <th width="20%">Flavour</th>
+                                        <th width="20%">Status</th>
+                                        <th width="20%" class="text-end">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+                                    <% for (let i=0; i < order.product.length;i++) { %>
+                                        <tr>
+                                            <td>
+                                                <a class="itemside" href="#">
+                                                    <div class="left">
+                                                        <img src="/admin/assets/imgs/category/<%= order.product[i].images %>"
+                                                            width="40" height="40" class="img-xs" alt="Item">
+                                                    </div>
+                                                    <div class="info">
+                                                        <%= order.product[i].title %>
+                                                    </div>
+                                                </a>
+                                            </td>
+                                            <td> ₹<%= order.product[i].price %>
+                                            </td>
+                                            <td>
+                                                <%=order.product[i].quantity %>
+                                            </td>
+                                            <td>
+                                                <%=order.product[i].weight %>
+                                            </td>
+                                            <td>
+                                                <%=order.product[i].flavour %>
+                                            </td>
+                                            <td>
+                                                <% if (order.product[i].status == 'canceled'){%>
+                                                <span class="badge rounded-pill alert-danger text-danger">
+                                                    <%= order.product[i].status %>
+                                                </span>
+                                            <%}else{%>
+                                                <span class="badge rounded-pill alert-success text-success">
+                                                    <%= order.product[i].status %>
+                                                </span>
+                                                <% } %>
+                                            </td>
+                                            <td class="text-end"> ₹<%= (order.product[i].price *
+                                                    order.product[i].quantity).toFixed(2) %>
+                                            </td>
+                                            <td>
+                                                <% if (order.product[i].status) { %>
+                                                    <div class="dropdown">
+                                                        <button class="btn btn-primary dropdown-toggle" type="button" id="statusDropdown"
+                                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                                            Update Order Status
+                                                        </button>
+                                                        <style>
+                                                            .dropdown-item {
+                                                                cursor: pointer;
+                                                            }
+                        
+                                                            .btn-secondary.print {
+                                                                margin-top: 10px;
+                                                            }
+                                                        </style>
+                                                        <ul class="dropdown-menu" aria-labelledby="statusDropdown">
+                                                            <% if (order.product[i].status=='pending' ) { %>
+                                                                <li><a class="dropdown-item" href="#"
+                                                                        onclick="updateStatus('confirmed','<%= order._id %>','<%= order.product[i].productId %>')">Confirmed</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#"
+                                                                        onclick="updateStatus('shipped','<%= order._id %>','<%= order.product[i].productId %>')">Shipped</a></li>
+                                                                <li><a class="dropdown-item" href="#"
+                                                                        onclick="updateStatus('delivered','<%= order._id %>','<%= order.product[i].productId %>')">Delivered</a>
+                                                                </li>
+                                                                <li><a class="dropdown-item" href="#"
+                                                                        onclick="updateStatus('canceled','<%= order._id %>','<%= order.product[i].productId %>')">Canceled</a></li>
+                                                                <% } else if (order.product[i].status =='confirmed' ) { %>
+                                                                    <li><a class="dropdown-item" href="#"
+                                                                            onclick="updateStatus('shipped','<%= order._id %>','<%= order.product[i].productId %>')">Shipped</a>
+                                                                    </li>
+                                                                    <li><a class="dropdown-item" href="#"
+                                                                            onclick="updateStatus('delivered','<%= order._id %>','<%= order.product[i].productId %>')">Delivered</a>
+                                                                    </li>
+                                                                    <li><a class="dropdown-item" href="#"
+                                                                            onclick="updateStatus('canceled','<%= order._id %>','<%= order.product[i].productId %>')">Canceled</a>
+                                                                    </li>
+                                                                    <% } else if (order.product[i].status=='shipped' ) { %>
+                                                                        <li><a class="dropdown-item" href="#"
+                                                                                onclick="updateStatus('delivered','<%= order._id %>','<%= order.product[i].productId %>')">Delivered</a>
+                                                                        </li>
+                                                                        <li><a class="dropdown-item" href="#"
+                                                                                onclick="updateStatus('canceled','<%= order._id %>','<%= order.product[i].productId %>')">Canceled</a>
+                                                                        </li>
+                                                                        <% } else if (order.product[i].status=='delivered' ) { %>
+                                                                            <li><a class="dropdown-item" href="#"
+                                                                                    onclick="updateStatus('returned','<%= order._id %>','<%= order.product[i].productId %>')">Return</a>
+                                                                            </li>
+                                                                            <% } else if (order.product[i].status=='return requested' ) { %>
+                                                                                <li><a class="dropdown-item" href="#"
+                                                                                        onclick="updateStatus('returned','<%= order._id %>','<%= order.product[i].productId %>')">Accept Return</a>
+                                                                                </li>
+                                                                                <% } else if (order.product[i].status =='canceled' ) { %>
+                                                                                    <li><a class="dropdown-item" href="#"
+                                                                                            onclick="updateStatus('confirmed','<%= order._id %>','<%= order.product[i].productId %>')">Confirmed</a>
+                                                                                    </li>
+                                                                                    <li><a class="dropdown-item" href="#"
+                                                                                            onclick="updateStatus('shipped','<%= order._id %>','<%= order.product[i].productId %>')">Shipped</a>
+                                                                                    </li>
+                                                                                    <li><a class="dropdown-item" href="#"
+                                                                                            onclick="updateStatus('delivered','<%= order._id %>','<%= order.product[i].productId %>')">Delivered</a>
+                                                                                    </li>
+                                                                                    <li><a class="dropdown-item" href="#"
+                                                                                            onclick="updateStatus('canceled','<%= order._id %>','<%= order.product[i].productId %>')">Canceled</a>
+                                                                                    </li>
+                                                                                    <% } else if (order.product[i].status =='returned' ) { %>
+                                                                                        <li><a class="dropdown-item" href="#"
+                                                                                                onclick="updateStatus('confirmed','<%= order._id %>','<%= order.product[i].productId %>')">Confirmed</a>
+                                                                                        </li>
+                                                                                        <li><a class="dropdown-item" href="#"
+                                                                                                onclick="updateStatus('shipped','<%= order._id %>','<%= order.product[i].productId %>')">Shipped</a>
+                                                                                        </li>
+                                                                                        <li><a class="dropdown-item" href="#"
+                                                                                                onclick="updateStatus('delivered','<%= order._id %>','<%= order.product[i].productId %>')">Delivered</a>
+                                                                                        </li>
+                                                                                        <li><a class="dropdown-item" href="#"
+                                                                                                onclick="updateStatus('canceled','<%= order._id %>','<%= order.product[i].productId %>')">Canceled</a>
+                                                                                        </li>
+                                                                                        <% } %>
+                                                        </ul>
+                                                    </div>
+                        
+                                                    <% } %>
+                                            </td>
+
+                                        </tr>
+
+                                        <% } %>
+
+
+
+                                            <tr>
+                                                <td colspan="6">
+                                                    <article class="float-end">
+                                                        <dl class="dlist">
+                                                            <dt>Sub Total:</dt>
+                                                            <% for (let i=0; i < order.product.length;i++) { %>
+                                                            <%  ( price = price +( order.product[i].price * order.product[i].quantity )).toFixed(2) %>
+                                                                <% } %>
+                                                                <dd>₹<%= price %>
+                                                            </dd>
+                                                        <dl class="dlist">
+                                                            <dt>Total Discount:</dt>
+                                                            <dd>-₹<%= (order.coupon).toFixed(2) %>
+                                                            </dd>
+                                                        </dl>
+                                                        <dl class="dlist">
+                                                            <dt>Shipping cost:</dt>
+                                                            <dd>₹0.00</dd>
+                                                        </dl>
+                                                        <dl class="dlist">
+                                                            <dt>Grand total:</dt>
+                                                            <dd> <b class="h5">₹<%= (order.totalPrice).toFixed(2) %></b>
+                                                            </dd>
+                                                        </dl>
+
+
+                                                    </article>
+                                                </td>
+                                            </tr>
+                                </tbody>
+                            </table>
+                        </div> <!-- table-responsive// -->
+                        <a class="btn btn-primary" href="page-orders-tracking.html">View Order Tracking</a>
+                    </div> <!-- col// -->
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-4">
+                        <div class="box shadow-sm bg-light">
+                            <h6 class="mb-15">Payment info</h6>
+                            <p>
+                                <img src="/admin/assets/imgs/card-brands/2.png" class="border" height="20">
+                                <%= order.payment %> <br>
+                                    Business name: <%= user.username %> <br>
+                                        Phone: +91,<%= user.mobile %>
+                            </p>
+                        </div>
+                        <div class="h-25 pt-4">
+                            <div class="mb-3">
+                                <label style="color: red;">Reason for Return</label>
+                                <% for(let i=0;i< order.product.length;i++){%>
+                                    <% if(order.product[i].return == true ){%>
+                                       <br> <label for="notes"><%= order.product[i].title %></label>
+                                <textarea class="form-control" name="notes" id="notes"
+                                    placeholder="Type some note"><%= order.product[i].reason %></textarea>
+                                    <%}%>
+                                    <%}%>
+                            </div>
+                            <button class="btn btn-primary">Save note</button>
+                        </div>
+                    </div> <!-- col// -->
+                </div>
+            </div> <!-- card-body end// -->
+        </div> <!-- card end// -->
+
+
+    </section>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+        function updateStatus(status, id,productId) {
+            const orderId = id
+            const Status = status;
+
+            $.ajax({
+                url: `/admin/updateStatus?orderId=${orderId}&status=${Status}&productId=${productId}`,
+                method: 'GET',
+                success: (response) => {
+                    if (response.status) {
+                        Swal.fire({
+                            title: 'STATUS ',
+                            text: 'Status Updated Successfully',
+                            icon: 'success',
+                            timer: 3000,
+                            showConfirmButton: false, // This removes the button
+                        });
+                        setTimeout(function () {
+                            location.reload();
+                        }, 1000)
+                    } else {
+                        res.json({ status: false })
+                    }
+                }
+            })
+
+
+        }
+
+    </script>
+
+    <%- include('../adminLayout/footer.ejs',{adminSession}) %>
