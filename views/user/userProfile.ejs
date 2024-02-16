@@ -1,0 +1,545 @@
+<%- include('../layouts/header.ejs',{userSession,cartLength,category}) %>
+
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/" rel="nofollow">Home</a>
+                    <span></span> Pages
+                    <span></span> Profile
+                </div>
+            </div>
+        </div>
+        <section class="pt-30 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row">
+                            <!-- ............................................... -->
+                            <div class="card-body">
+                                <div class="card mb-4">
+                                    <div class="card-header " style="height:150px;background-color: black;">
+                                        <div style="float: right; margin-top: -10px;">
+                                            <img src="user/assets/imgs/theme/repsup logo.jpg" width="200" height="140"
+                                                alt="logo">
+                                        </div>
+                                    </div>
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-xl col-lg flex-grow-0" style="flex-basis:230px">
+                                                <div class="img-thumbnail shadow w-100 bg-white position-relative text-center"
+                                                    style="height:190px; width:200px; margin-top:-120px">
+
+
+
+
+
+
+                                                    <img style="width: 140px;; height: 150px;padding-top: 10px;"
+                                                        src="user/assets/imgs/theme/icons/profile.jpg"
+                                                        class="center-xy img-fluid" alt="Logo Brand">
+
+
+
+
+                                                    <li class="dropdown nav-item">
+                                                        <a class="dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                                                            id="dropdownAccount" aria-expanded="false">Edit Profile
+                                                            Pic</a>
+                                                        <div class="dropdown-menu dropdown-menu-end"
+                                                            aria-labelledby="dropdownAccount">
+                                                            <form action="/addProfilePic" enctype="multipart/form-data"
+                                                                method="post"> <a class="dropdown-item" href="#"><input
+                                                                        class="form-control" type="file"
+                                                                        accept="image/*" name="image"></a> <input
+                                                                    type="hidden" name="id" value="">
+                                                                <a class="dropdown-item" href="#"><i
+                                                                        class="material-icons md-receipt"></i><button
+                                                                        style="height: 20px; width: 20px; display: flex; align-items: center; justify-content: center;"
+                                                                        type="submit">Edit</button></a>
+                                                            </form>
+
+                                                        </div>
+                                                    </li>
+
+
+
+
+
+
+
+                                                </div>
+                                            </div> <!--  col.// -->
+                                            <div class="col-xl col-lg">
+                                                <h3>
+                                                    <%= user.username %>
+                                                </h3>
+                                                <p>
+                                                    <%= user.email %>,
+                                                </p>
+                                            </div>
+
+                                        </div> <!-- card-body.// -->
+                                        <hr class="my-4">
+                                        <div class="row g-4">
+
+                                            <div class="col-sm-6 col-lg-4 col-xl-3">
+                                                <h6>Contacts</h6>
+
+                                                <p>
+                                                    <%= user.mobile %>
+                                                </p>
+                                            </div><!-----col-->
+                                            <div class="col-sm-8 col-lg-6 col-xl-5">
+                                                <h6>Address</h6>
+                                                <% if (user.address && user.address.length> 0) { %>
+                                                    <p>
+                                                        <%= user.address[0].landMark %>
+                                                    </p>
+                                                    <% } else { %>
+                                                        <div class="col-sm-12">
+                                                            <!-- <a class="nav-link" id="account-detail-tab" data-bs-toggle="tab" href="#account-detail" role="tab" aria-controls="account-detail" aria-selected="true"><i class="fi-rs-user mr-10"></i>Add new Address</a> -->
+                                                            <p> <i class="fi-rs-x-circle mr-10"></i>No Address Add Your
+                                                                address</p>
+                                                        </div>
+                                                        <% } %>
+
+
+
+                                            </div> <!--  col.// -->
+                                            <div class="col-lg-3"> <a href="/editProfile?id=<%=user._id %>">Edit
+                                                    Profile</a></div>
+
+                                        </div> <!--  row.// -->
+                                    </div> <!--  card-body.// -->
+                                </div> <!--  card.// -->
+                            </div>
+
+                            <!-- ......................................................................ADD MONEY TO WALLET......................................... -->
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="card card-body mb-4">
+                                        <article class="icontext">
+                                            <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                                                    class="text-primary material-icons md-monetization_on"></i></span>
+                                            <div class="text">
+                                                <h3 class="mb-1 card-title">Wallet</h3>
+                                                <br>
+                                                <br>
+                                                <span>
+                                                    <h5>Ballence:₹<%= user.wallet.toFixed(2) %>
+                                                    </h5>
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <span class="text-sm">
+                                                    <br>
+                                                </span>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+
+                                <div class="col-lg-4 col-md-4 mb-md-3 mb-lg-0">
+                                    <div class="card card-body mb-4">
+                                        <article class="icontext">
+                                            <div class="banner-features wow fadeIn animated hover-up">
+                                                <img src="/user/assets/imgs/theme/icons/feature-3.png" alt="">
+                                                <a href="#" data-toggle="modal" data-target="#addMoneyModal">
+                                                    <h4 class="bg-2">Add Money</h4>
+                                                </a>
+                                            </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="card card-body mb-3">
+                                        <article class="icontext">
+                                            <span class="icon icon-sm rounded-circle bg-primary-light"><i
+                                                    class="text-primary material-icons md-monetization_on"></i></span>
+                                            <div class="text">
+                                                <h3 class="mb-1 card-title"></h3>
+                                                <br>
+                                                <br>
+                                                <span>
+                                                    <h5>
+                                                    </h5>
+                                                </span>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <br>
+                                                <span class="text-sm">
+                                                    <br>
+                                                </span>
+                                            </div>
+                                        </article>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- modaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaallllllllll -->
+                        <div class="modal fade" id="addMoneyModal" tabindex="-1" role="dialog"
+                            aria-labelledby="addMoneyModalTitle" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="addMoneyModalTitle">Add Money
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form id="addMoneyForm">
+                                            <div class="form-group">
+                                                <label for="moneyAmount">Amount (₹)</label>
+                                                <input type="number" class="form-control" id="moneyAmount"
+                                                    placeholder="Enter amount">
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary" id="addMoneyButton">Add
+                                            Money</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function () {
+                                // Handle form submission when "Add Money" button is clicked
+                                $("#addMoneyButton").click(function () {
+                                    var amount = $("#moneyAmount").val(); // Get the entered amount
+                                    alert(amount)
+                                    if (amount.trim() === "") {
+                                        alert("Please enter a valid amount.");
+                                        return;
+                                    }
+                                    $("#addMoneyModal").modal("hide");
+                                    $("#walletBalance").text("₹" + amount);
+
+
+                                    $.ajax({
+                                        url: "/addMoneyToWallet",
+                                        method: "POST",
+                                        data: {
+                                            amount: amount
+                                        },
+                                        success: (response) => {
+
+
+                                            if (response.status) {
+
+                                                var razorpayApiKey = 'rzp_test_CukgkPYKNvNxM3';
+                                                var orderAmount = Math.round(amount * 100);
+
+
+                                                // Define the Razorpay options
+                                                var options = {
+                                                    "key": razorpayApiKey,
+                                                    "amount": orderAmount, // Dynamically calculated amount
+                                                    "currency": "INR",
+                                                    "name": "Evara",
+                                                    "description": "Add money to wallet",
+                                                    "order_id": response.razorpayOrder.id,
+                                                    "handler": function (response) {
+                                                        console.log(response);
+
+                                                        verifyPayment(response);
+
+
+                                                    },
+
+                                                    "prefill": {
+                                                        "name": "Customer Name", // Set to the customer's name
+                                                        "email": "customer@example.com", // Set to the customer's email
+                                                        "contact": "9000090000" // Set to the customer's contact number
+                                                    },
+                                                    "callback_url": "/your-server-callback-url", // Replace with your server's callback URL
+                                                    "theme": {
+                                                        "color": "#3399cc"
+                                                    }
+                                                };
+
+                                                // Create a new Razorpay instance and open the payment dialog
+                                                var rzp1 = new Razorpay(options);
+                                                rzp1.open();
+                                            }
+                                            else {
+                                                Swal.fire({
+                                                    title: 'Error Occured',
+                                                    text: "Can't process order error occured",
+                                                    icon: 'fail',
+                                                    timer: 5000
+                                                })
+
+                                            }
+                                        }
+                                    })
+                                    function verifyPayment(response) {
+
+                                        $.ajax({
+                                            url: '/walletPayment',
+                                            method: 'post',
+                                            data: {
+                                                razorpay_order_id: response.razorpay_order_id,
+                                                razorpay_payment_id: response.razorpay_payment_id,
+                                                razorpay_signature: response.razorpay_signature
+                                            },
+                                            success: (response) => {
+                                                if (response.status) {
+
+
+                                                    $.ajax({
+                                                        url: "/updateMongoWallet",
+                                                        method: "post",
+                                                        data: {
+                                                            amount: amount,
+
+                                                        },
+                                                        success: (response) => {
+                                                            if (response.status) {
+                                                                Swal.fire({
+                                                                    title: "Added success",
+                                                                    text: "Add Moneney successfully",
+                                                                    icon: "success",
+                                                                    showConfirmButton: false,
+                                                                    timer: 2000,
+
+                                                                })
+                                                                location.reload()
+                                                            }
+                                                        }
+                                                    })
+
+                                                } else {
+                                                    alert("Payment failed!" + response.errMsg)
+                                                }
+                                            }
+                                        })
+                                    }
+                                }
+                                )
+                            })
+                        </script>
+
+
+
+
+
+                        <!-- ...................................................................................... -->
+                        <div class="col-md-12">
+                            <div class="col-md-5">
+                                <div class="dashboardi-menu">
+                                    <ul class="nav flex-column" role="tablist">
+                                        <li class="navi-item">
+                                            <a class="navi-link active" id="dashboard-tab" data-bs-toggle="tab"
+                                                href="#dashboard" role="tab" aria-controls="dashboard"
+                                                aria-selected="false"><i
+                                                    class="fi-rs-settings-sliders mr-10"></i>Dashboard</a>
+                                        </li>
+                                        <li class="navi-item">
+                                            <a class="navi-link" id="orders-tab" href="/allOrderDetails" role="tab"
+                                                aria-controls="orders" aria-selected="false"><i
+                                                    class="fi-rs-shopping-bag mr-10"></i>Orders</a>
+                                        </li>
+                                        <li class="navi-item">
+                                            <a class="navi-link" id="track-orders-tab" href="/wallet" ; role="tab"
+                                                aria-controls="track-orders" aria-selected="true"><i
+                                                    class="fi-rs-shopping-cart-check mr-10"></i>Wallet
+                                                Transactions</a>
+                                        </li>
+                                        <li class="navi-item">
+                                            <a class="navi-link" id="address-tab" href="/changePassword" role="tab"
+                                                aria-controls="address" aria-selected="true"><i
+                                                    class="fas fa-lock mr-10"></i>Change Password</a>
+                                        </li>
+                                        <li class="navi-item">
+                                            <a class="navi-link" id="account-detail-tab" href="/addAddress?wt=<%= wt %>"
+                                                role="tab" aria-controls="account-detail" aria-selected="true"><i
+                                                    class="fi-rs-user mr-10"></i>Add new address</a>
+                                        </li>
+                                        <li class="navi-item">
+                                            <a class="navi-link" href="/logout"><i
+                                                    class="fi-rs-sign-out mr-10"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+
+
+
+
+
+                            <div class="col-md-5" style="float:right ; margin-top: -370px; width: auto;">
+                                <div class="card" style="border-radius: 20px;border-color: black;">
+                                    <div class="card-header"
+                                        style="background-color: black;border-top-right-radius: 20px; border-top-left-radius:20px ;text-align: center; ">
+                                        <h5 class="mb-0 " style="color: white;">Your Address</h5>
+                                    </div>
+
+                                    <!-- ...........................................ADDRESS..........AREA................................. -->
+                                    <% if (user.address.length> 0) { %>
+                                        <% for (let i=0; i < user.address.length; i++) { %>
+
+                                            <div class="card-body"
+                                                style="height: 280px; width: 400px; overflow: auto;padding-left: 20px; ">
+
+                                                <link rel="stylesheet"
+                                                    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+                                                <ul class="list-inline"
+                                                    style="list-style: none; padding: 0; float: right;">
+                                                    <li class="list-inline-item mr-20" style="display: inline-block;">
+                                                        <a href="/editAddress?id=<%= user.address[i]._id %>">
+                                                            <i class="fas fa-pencil-alt" style="margin-left: 20px;"></i>
+                                                            <!-- Edit icon -->
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-inline-item mr-20" style="display: inline-block;">
+                                                        <a href="#"
+                                                            onclick="deleteAddress('<%= user.address[i]._id %>')">
+                                                            <i class="fas fa-trash-alt" style="margin-left: 20px;"></i>
+                                                            <!-- Delete icon -->
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                                <script>
+                                                    function deleteAddress(id) {
+                                                        $.ajax({
+                                                            url: `/deleteAddress?id=${id}`,
+                                                            method: 'GET',
+                                                            success: function (response) {
+                                                                if (response.status) {
+                                                                    Swal.fire({
+                                                                        title: 'sucsess',
+                                                                        text: 'Address Deleted Successfully.',
+                                                                        icon: 'success',
+                                                                        timer: 5000
+                                                                    });
+                                                                    setTimeout(function () {
+                                                                        location.reload();
+                                                                    }, 1000)
+                                                                } else {
+                                                                    alert(response.error)
+                                                                }
+                                                            }
+
+                                                        })
+                                                    }
+                                                </script>
+                                                <address>
+                                                    Name: <%= user.address[i].fullName %><br>
+                                                        Pin: <%= user.address[i].pinCode %><br>
+                                                            City: <%= user.address[i].city %><br>
+                                                                Landmark: <%= user.address[i].landMark %><br>
+                                                                    Address: <%= user.address[i].address %><br>
+                                                                        <!-- Street: <%= user.address[i].areaStreet %><br> -->
+                                                                        Phone: <%= user.address[i].mobile %><br>
+                                                                            <p style="font-weight: bold;">
+                                                                                <%= user.address[i].addressType %>
+                                                                            </p>
+                                                </address>
+                                                <p style="font-weight: bold;">
+                                                    <%= user.address[i].state %>
+                                                </p>
+
+
+                                            </div>
+
+                                            <% } %>
+
+                                                <% } else { %>
+                                                    <div class="col-md-12">
+                                                        <div class="card">
+                                                            <div class="card-body">
+
+                                                                <p>No address found. Please add an address.</p>
+
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <% } %>
+                                </div>
+                            </div>
+                        </div>
+                        <style>
+                            /* Custom styles for the dashboard menu */
+                            .dashboardi-menu {
+                                background-color: #f2f2f2;
+                                padding: 25px;
+                                border-radius: 15px;
+
+                            }
+
+                            .navi-link {
+                                display: block;
+                                padding: 10px 15px;
+                                margin-bottom: 10px;
+                                border-radius: 10px;
+                                color: #333;
+                                text-decoration: none;
+                                transition: background-color 0.3s, color 0.3s;
+                            }
+
+                            .navi-link:hover {
+                                background-color: #ddd;
+                            }
+
+                            .navi-link.active {
+                                background-color: black;
+                                color: white;
+                            }
+
+                            /* Rest of your CSS styles can go here */
+                        </style>
+                        <script>
+                            document.addEventListener('DOMContentLoaded', function () {
+                                const navLinks = document.querySelectorAll('.nav-link');
+
+                                navLinks.forEach(link => {
+                                    link.addEventListener('click', function (event) {
+                                        event.preventDefault();
+
+                                        // Remove 'active' class from all links
+                                        navLinks.forEach(link => {
+                                            link.classList.remove('active');
+                                        });
+
+                                        // Add 'active' class to the clicked link
+                                        link.classList.add('active');
+                                    });
+                                });
+                            });
+                        </script>
+                        <!-- ................................................... -->
+
+                        <!-- ...................................................... -->
+
+                    </div>
+                </div>
+            </div>
+            </div>
+        </section>
+    </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <%- include('../layouts/footer.ejs') %>

@@ -1,0 +1,139 @@
+<%- include('../adminLayout/header.ejs',{adminSession}) %>
+    <div class="container">
+        <div class="row justify-content-center center-content">
+            <div class="col-lg-4">
+                <form action="/admin/updateBrand?id=<%= brand.id %>" method="post"  enctype="multipart/form-data"  onsubmit="return validateForm()">
+                    <label for="product_name" class="form-label">Brand Image</label>
+                    <div class="uploaded-images">
+                        
+                        <% if (brand.images) { %>
+                                <div class="image-container">
+                                    <div class="image-wrapper">
+                                    <img  src="/admin/assets/imgs/category/<%= brand.images %>" alt="Uploaded Image">
+                                    </div>
+                                </div>
+                    
+                        <% } %>
+                    </div>
+
+                    <input type="hidden" name="id" value="<%= brand.id  %>">
+                    <div class="mb-4">
+                        <label for="product_name" class="form-label">Brand Name</label>
+                        <input type="text" name="name" placeholder="Type here" value="<%= brand.name %>"
+                            class="form-control" id="product_name" />
+                        <div class="error-message" id="name-error"></div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Description</label>
+                        <textarea name="description" placeholder="Type here" value="<%=brand.description %>"
+                            class="form-control"> <%=brand.description %> </textarea>
+                        <div class="error-message" id="description-error"></div>
+                    </div>
+                    <div class="mb-4">
+                        <label class="form-label">Image</label>
+                        <p><%= brand.images %></p> 
+                        <input type="file" name="images" placeholder="Image" value="<%= brand.images %>" class="form-control" id="images" accept="image/*" />
+                        <div class="error-message" id="image-error"></div>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Edit Brand</button>
+                    </div>
+
+                  
+                    <style>
+                        .image-container {
+ display: inline-block;
+ margin-right: 10px;
+ margin-bottom: 10px;
+ position:relative;
+ margin-left: 1000px;
+}
+
+.image-container img {
+ width: 100px; 
+ height: auto;
+} 
+
+/* Style the image container and adjust layout */
+.image-container {
+ display: inline-block;
+ margin: 10px;
+ margin-left: 100px;
+}
+
+.image-wrapper {
+ position: relative;
+ display: inline-block;
+}
+
+               </style>
+
+                </form>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
+
+
+        </div>
+    </div>
+
+    <script>
+        function validateForm() {
+            // Reset any existing error messages
+            clearErrorMessages();
+
+            const name = document.getElementById('product_name').value;
+
+            const description = document.querySelector('textarea[name="description"]').value;
+
+            const images = document.getElementById('images').files;
+
+            let isValid = true;
+
+            // Check if name is empty
+            if (name.trim() === '') {
+                displayErrorMessage('name-error', 'Please enter a category name.');
+                isValid = false;
+            }
+
+
+            // Check if description is empty
+            if (description.trim() === '') {
+                displayErrorMessage('description-error', 'Please enter a category description.');
+                isValid = false;
+            }
+        //     if (images.length ===0) {
+        //     displayErrorMessage('image-error', 'Please select an image.');
+        //     isValid = false;
+        // }
+        //  else if (!images.type.startsWith('image/')) {
+        //     displayErrorMessage('image-error', 'Please select a valid image file.');
+        //     isValid = false;
+        // }
+
+            return isValid;  // Only returns true if all validations passed
+        }
+
+        function displayErrorMessage(errorId, message) {
+            const errorDiv = document.getElementById(errorId);
+            errorDiv.innerText = message;
+        }
+
+        function clearErrorMessages() {
+            const errorMessages = document.querySelectorAll('.error-message');
+            errorMessages.forEach((errorMessage) => {
+                errorMessage.innerText = '';
+            });
+        }
+
+    </script>

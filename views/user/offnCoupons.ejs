@@ -1,0 +1,63 @@
+<%- include('../layouts/header.ejs',{userSession,cartLength,category}) %>
+
+<div class="container mt-5" > 
+    <h3 style="margin-top:30px ;">Offers & Coupons</h3>
+  
+    <% if (coupons.length > 0) { %>
+      <div class="row">
+        <% coupons.forEach(coupon => { %>
+          <div class="col-md-4 mb-4">
+            <div class="card" style="height:250px; margin-top: 50px; border-radius: 30px; ">
+              <style>
+                .card{
+                  background:linear-gradient(to bottom, #f9fafa, #aeccc57f);
+                  border-color: #f9fafa;
+                }
+              </style>
+              <div class="card-body">
+                <div class="bi" style="cursor: pointer; float: right;">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" fill="currentColor" class="bi bi-clipboard" viewBox="0 0 16 16"  onclick="copyToClipboard('couponName<%= coupon._id %>')" >
+                    <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1h1a1 1 0 0 1 1 1V14a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V3.5a1 1 0 0 1 1-1h1z"/>
+                    <path d="M9.5 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5zm-3-1A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0z"/>
+                  </svg>
+                </div>
+                <h5 class="card-title" id="couponName<%= coupon._id %>"><span style="font-weight:500px; font-size: large; font-style: italic; font-weight: bolder; "><%= coupon.name %></span></h5>
+               
+                <p class="card-text">
+                  <%= coupon.description %>
+                </p>
+              
+                <p class="card-text"><strong>Offer Price:</strong> <%= coupon.offerPrice %></p>
+                <p class="card-text"><strong>Minimum Amount:</strong> <%= coupon.minimumAmount %></p>
+                <p class="card-text"><strong>Expiry Date:</strong> <%= coupon.expiryDate %></p>
+                
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    <% } else { %>
+      <p>No coupons available.</p>
+    <% } %>
+  
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    function copyToClipboard(elementId) {
+      const couponNameElement = document.getElementById(elementId);
+      const tempTextArea = document.createElement('textarea');
+      tempTextArea.value = couponNameElement.innerText;
+      document.body.appendChild(tempTextArea);
+      tempTextArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempTextArea);
+      alert('Coupon copied to clipboard!');
+    }
+  </script>
+  
+  
+
+
+
+<%- include('../layouts/footer.ejs',{userSession}) %>

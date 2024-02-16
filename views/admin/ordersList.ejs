@@ -1,0 +1,128 @@
+<%- include('../adminLayout/header.ejs',{adminSession}) %>
+
+    <section class="content-main" style="margin-left: 260px;">
+        <div class="content-header">
+            <div style="margin-top: 40px; margin-bottom: 20px;">
+                <h2 class="content-title card-title pb-5">Orders List </h2>
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-9">
+                <div class="card mb-4">
+
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>sl.No</th>
+                                        <th>Customer name</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                        <th>Date</th>
+                                        <th class="text-end"> Action </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+
+
+
+
+                                    <!------------------------------------------ this is a single order data -=--------------------->
+                                    <% if (orders.length> 0) { %>
+                                        <% for (let i=0,z=1; i < orders.length;i++,z++) { %>
+                                            <% for (let j=0; j < orders[i].product.length; j++) { %>
+                                                <tr>
+                                                    <td>
+                                                        <%=z%>
+                                                    </td>
+                                                    <td><b>
+                                                            <%= orders[i].product[j].title %>
+                                                        </b></td>
+
+                                                    <td>₹<%= orders[i].product[j].price * orders[i].product[j].quantity %>
+                                                    </td>
+
+                                                    <% if (orders[i].product[j].status=="pending" ) { %>
+
+                                                        <td><span
+                                                                class="badge rounded-pill alert-warning">Pending</span>
+                                                        </td>
+                                                        <% } else if(orders[i].product[j].status==='confirmed' ){ %>
+                                                            <td><span
+                                                                    class="badge rounded-pill alert-success">Confirmed</span>
+                                                            </td>
+                                                            <% } else if(orders[i].product[j].status=='canceled' ){ %>
+                                                                <td><span
+                                                                        class="badge rounded-pill alert-danger">Cancelled</span>
+                                                                </td>
+                                                                <% } else if(orders[i].product[j].status=='shipped' ){ %>
+                                                                    <td><span
+                                                                            class="badge rounded-pill alert-success">Shipped</span>
+                                                                    </td>
+                                                                    <% } else if(orders[i].product[j].status=='delivered' ){ %>
+                                                                        <td><span
+                                                                                class="badge rounded-pill alert-success">Delivered</span>
+                                                                        </td>
+                                                                        <% } else if(orders[i].product[j].status=='return requested' ){ %>
+                                                                            <td><span
+                                                                                    class="badge rounded-pill alert-danger">Return requested</span>
+                                                                            </td>
+
+                                                                            <% } else if(orders[i].product[j].status=='returned' ){ %>
+                                                                                <td><span
+                                                                                        class="badge rounded-pill alert-danger">Returned</span>
+                                                                                </td>
+    
+                                                                                <% } %>
+
+                                                                                <td>
+                                                                                    <%= orders[i].createdOn.toLocaleDateString()
+                                                                                        %>
+                                                                                </td>
+                                                                                <td class="text-end">
+                                                                                    <a href="/admin/orderDetails?id=<%= orders[i].product[j].productId %>&orderId=<%= orders[i]._id %>&userId=<%= orders[i].userId %>"
+                                                                                        class="btn btn-md rounded font-sm">Detail</a>
+
+
+
+
+
+
+                                                                                </td>
+                                                </tr>
+
+                                                <% } %>
+                                                    <% } %>
+                                                        <% } else { %>
+                                                            <tr>
+                                                                <td colspan="2">No item found in Oders</td>
+                                                            </tr>
+                                                            <% } %>
+
+
+
+
+
+                                                                <!-- --------------------------end ------------------------------------ -->
+
+
+
+                                </tbody>
+                            </table>
+                        </div> <!-- table-responsive //end -->
+                    </div> <!-- card-body end// -->
+                </div> <!-- card end// -->
+
+                <div class="col-md-3">
+
+
+                </div>
+
+            </div>
+
+    </section> <!-- content-main end// -->
+
+    <%- include('../adminLayout/footer.ejs',{adminSession}) %>

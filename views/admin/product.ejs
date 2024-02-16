@@ -1,0 +1,183 @@
+<%- include('../adminLayout/header.ejs',{adminSession}) %>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <div>
+        <section class="content-main pt-30 ml-60">
+            <div class="content-header">
+                <div>
+                    <h2 class="content-title card-title">Products</h2>
+
+                </div>
+                <div>
+
+                    <a href="/admin/addProduct" class="btn btn-primary btn-sm rounded">Create new</a>
+                </div>
+            </div>
+            <div class="card mb-4">
+                <header class="card-header">
+                    <div class="row gx-3">
+
+
+
+                    </div>
+                </header> <!-- card-header end// -->
+                <div class="card-body">
+                    <div class="row gx-3 row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-xl-4 row-cols-xxl-4">
+
+                        <% if (product && product.length> 0) { %>
+                            <% for (let i=0; i < product.length; i++ ) { %>
+                                <div class="col">
+                                    <div class="card card-product-grid" style="padding: 10px;">
+                                        <!-- <% if (product[i].images && product[i].images.length>= 2) { %> -->
+                                        <a href="#" class="img-wrap"> <img style="height: 150px;"
+                                                src="/admin/assets/imgs/category/<%= product[i].images[0] %>"
+                                                alt="Product"> </a>
+                                        <!-- <% } else { %>
+                                    <p>No images available for this product.</p>
+                                    <% } %> -->
+                                        <div class="info-wrap">
+                                            <a href="#" class="title text-truncate">
+                                                <%= product[i].title %>
+                                            </a>
+                                            <div class="price mb-2">₹<%= product[i].price %>
+                                            </div> <!-- price.// -->
+                                            <a href="/admin/editProduct?id=<%= product[i]._id %>"
+                                                class="btn btn-sm font-sm rounded btn-brand">
+                                                <i class="material-icons md-edit"></i> Edit
+                                            </a>
+                                            <% if (product[i].isDeleted==false) { %>
+                                                <a href="/admin/deleteProduct?id=<%= product[i]._id %>"
+                                                    class="btn btn-sm font-sm btn-light rounded">
+                                                    <i class="material-icons md-delete_forever "></i> Delete
+                                                </a>
+                                                <% } else { %>
+                                                    <a href="/admin/undoDeleteProduct?id=<%= product[i]._id %>"
+                                                        class="btn btn-sm font-sm btn-light rounded">
+                                                        <i
+                                                            class="material-icons md-delete_forever alert-danger  "></i>Insert
+                                                    </a>
+                                                    <% } %>
+
+                                                        <% if (product[i].status==true) { %>
+
+                                                            <td><span><a class="badge rounded-pill  alert-success"
+                                                                        href="/admin/unlistProduct?id=<%= product[i]._id %>">Unlist</a></span>
+                                                            </td>
+
+                                                            <% } else { %>
+                                                                <a class="badge rounded-pill alert-danger"
+                                                                    href="/admin/listProduct?id=<%= product[i]._id %>">list</a>
+                                                                </td>
+                                                                <% } %>
+                                                                    <!-- <td><span><a class="badge rounded-pill  alert-success" href="/admin/productOffer?id=<%= product[i]._id %>" style="margin-left: 10px;">Offer</a></span> </td> -->
+                                                                    <a href="#" data-toggle="modal"
+                                                                        data-target="#addOfferModal">
+                                                                        <button
+                                                                            class="badge rounded-pill  alert-success"
+                                                                            onclick="saveId('<%= product[i]._id %>')"
+                                                                            style="margin-left: 8px;">Offer</button>
+                                                                    </a>
+
+
+                                        </div>
+                                    </div> <!-- card-product  end// -->
+                                </div>
+                                <!-- ........................................................ADD OFFER MODAL.................................................. -->
+                                <div class="modal fade" id="addOfferModal" tabindex="-1" role="dialog"
+                                    aria-labelledby="addOfferModalTitle" aria-hidden="true">
+                                    <div class="modal-dialog modal-dialog-centered" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="addOfferModalTitle">Add Offer
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <form id="addOfferForm">
+                                                    <div class="form-group">
+                                                        <label for="offerAmount">Offer in (%)</label>
+                                                        <input type="number" class="form-control" id="offerAmount"
+                                                            placeholder="Enter offer in(%)">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary"
+                                                    data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-primary" id="addOfferButton"
+                                                    onclick="offer()">Apply
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- ........................................................................................................ -->
+
+
+
+                                <!-- col.// -->
+                                <% } %>
+                                    <% } else { %>
+                                        <tr>
+                                            <td colspan="2">Product not found</td>
+                                        </tr>
+                                        <% } %>
+
+                    </div> <!-- row.// -->
+                    <div style="padding-top: 30px;">
+                        <% if (page> 1) { %>
+                            <a href="/admin/product?page=<%= page - 1 %>">Previous</a>
+                            <% } %>
+                                <span>Page <%= page %> of <%= totalPages %></span>
+                                <% if (page < totalPages) { %>
+                                    <a href="/admin/product?page=<%= page + 1 %>">Next</a>
+                                    <% } %>
+                    </div>
+                </div> <!-- card-body end// -->
+            </div> <!-- card end// -->
+        </section> <!-- content-main end// -->
+    </div>
+
+
+
+    <script>
+        function saveId(id) {
+            this.prodId = id
+        }
+
+        function offer() {
+
+            id = this.prodId
+
+            const offer = document.getElementById('offerAmount').value;
+
+            console.log(offer, id);
+            $.ajax({
+                url: `/admin/productOffer?id=${id}&offer=${offer}`,
+                method: 'GET',
+                success: function (response) {
+                    if (response.status) {
+                        Swal.fire({
+                            title: 'Success',
+                            text: 'offer added succesfully',
+                            icon: 'success',
+                            timer: 3000
+                        });
+                        setTimeout(function () {
+                            location.reload();
+                        }, 600)
+
+                    } else {
+                        alert(response.error)
+                    }
+
+                }
+            })
+        }
+    </script>
+
+
+
+    <%- include('../adminLayout/footer.ejs',{adminSession}) %>

@@ -1,0 +1,449 @@
+<%- include('../layouts/header.ejs',{userSession,cartLength,category}) %>
+
+    <style>
+        .banner-img {
+            background-color: black;
+        }
+
+        .container {
+            border-radius: 200px;
+        }
+
+        main {
+            overflow-x: hidden;
+
+        }
+    </style>
+    <main class="main" style="overflow-x: hidden;">
+<br>
+<br>
+<style>
+    .container {
+    max-width: 100%;
+    padding: 0 13px; 
+    margin: 0 auto;
+}
+
+/* Adjust the slider image styling */
+    .single-hero-slider {
+    display: inline-block; /* Ensure slider items display horizontally */
+    /* Add other necessary styling */
+}
+
+.slider-image {
+    max-width: 100%;
+    max-height: 500px; 
+    background-size: cover; 
+    background-position: center; 
+
+}
+</style>
+<section class="home-slider position-relative mb-30"  style=" border-radius: 0px;">
+    <div class="container">
+        <div class="home-slide-cover mt-30" >
+            <div class="hero-slider-1 style-4 dot-style-1 dot-style-1-position-1" style="height: 350px;">
+                <% if(banner.length > 0){ %>
+                <% for (let i=0; i < banner.length; i++) { %>
+                    <% if(banner[i].title =='header'){%>
+
+                <div class="single-hero-slider single-animation-wrap">
+                    <div class="container">
+                        <div class="row justify-content-center slider-animated-1">
+                            <div class="col-lg-12 col-md-12 slider-image"
+                                style="background-image: url('/admin/assets/imgs/category/<%= banner[i].image %>');width: 100%;height: 350px;">
+                                <!-- Adjust image styling -->
+                                <!-- <img src="/admin/assets/imgs/category/<%= banner[i].image %>" alt="Banner Image"> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <% } %>
+                <% } %>
+                <% } else { %>
+                <tr>
+                    <td colspan="2">Banners not found</td>
+                </tr>
+                <% } %>
+            </div>
+            <div class="slider-arrow hero-slider-1-arrow"></div>
+        </div>
+    </div>
+</section>
+
+
+        <section class="product-tabs section-padding position-relative wow fadeIn animated">
+            <div class="bg-square"></div>
+            <div class="container">
+                <div class="tab-header">
+                    <ul class="nav nav-tabs" id="myTab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="nav-tab-one" data-bs-toggle="tab"
+                                data-bs-target="#tab-one" type="button" role="tab" aria-controls="tab-one"
+                                aria-selected="true">Featured</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="nav-tab-two" data-bs-toggle="tab" data-bs-target="#tab-two"
+                                type="button" role="tab" aria-controls="tab-two" aria-selected="false">Popular</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="nav-tab-three" data-bs-toggle="tab" data-bs-target="#tab-three"
+                                type="button" role="tab" aria-controls="tab-three" aria-selected="false">New
+                                added</button>
+                        </li>
+                    </ul>
+                    <a href="#" class="view-more d-none d-md-flex">View More<i
+                            class="fi-rs-angle-double-small-right"></i></a>
+                </div>
+                <!--End nav-tabs-->
+                <div class="tab-content wow fadeIn animated" id="myTabContent">
+                    <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+                        <div class="row product-grid-4">
+                            <% if ( product.length> 0) { %>
+                                <% for (let i=0; i < product.length; i++) { %>
+                                    <% if (product[i].images && product[i].images.length>= 1) { %>
+                                        <!--..........................//product div start................................................................ -->
+                                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                                            <div class="product-cart-wrap mb-30">
+                                                <div class="product-img-action-wrap">
+                                                    <div class="product-img product-img-zoom">
+                                                        <a href="/productD?id=<%= product[i].id %>">
+                                                            <img class="default-img"
+                                                                src="/admin/assets/imgs/category/<%= product[i].images[0] %>"
+                                                                alt="">
+                                                            <img class="hover-img"
+                                                                src="/admin/assets/imgs/category/<%= product[i].images[0] %>"
+                                                                alt="">
+                                                        </a>
+
+                                                    </div>
+                                                    <div class="product-action-1">
+                                                        <a aria-label="Quick view" class="action-btn hover-up"
+                                                            data-bs-toggle="modal" data-bs-target="#quickViewModal"><i
+                                                                class="fi-rs-eye"></i></a>
+                                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                        <a aria-label="Compare" class="action-btn hover-up"
+                                                            href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                                    </div>
+                                                    <div
+                                                        class="product-badges product-badges-position product-badges-mrg">
+                                                        <% if(product[i].offer>0){%>
+                                                            <span class="hot">
+                                                                <%= product[i].offer%>%off
+                                                            </span>
+                                                            <% }else{%>
+                                                                <span class="hot">Hot</span>
+                                                                <% }%>
+
+                                                    </div>
+                                                </div>
+                                                <div class="product-content-wrap">
+                                                    <!-- <div class="product-category">
+                                            <a href="shop-grid-right.html"><%= product[i].category.name %></a>
+                                        </div> -->
+                                                    <h2><a href="/productD?id=<%= product[i].id %>">
+                                                            <%= product[i].title %>
+                                                        </a></h2>
+                                                    <div class="rating-result" title="90%">
+                                                        <span>
+                                                            <span>90%</span>
+                                                            <%if(product[i].quantity===0){%>
+
+                                                                <div class="out-of-stock"
+                                                                    style="color: red; float: right;padding-left: 50px;font-weight: bolder;">
+                                                                    <span>Out of Stock!</span>
+                                                                </div>
+                                                                <% } %>
+                                                        </span>
+                                                    </div>
+                                                    <div class="product-price">
+                                                        <% if(product[i].offer> 0){ %>
+                                                            <span>₹<%= Math.round((product[i].price - (product[i].price
+                                                                    * product[i].offer) / 100)).toString() %> </span>
+                                                            <span class="old-price">₹<%= Math.round(product[i].price) %>
+                                                            </span>
+                                                            <% }else{%>
+                                                                <span>₹<%= Math.round(product[i].price) %> </span>
+                                                                <% } %>
+
+                                                    </div>
+                                                    <% if(product[i].quantity> 0){ %>
+                                                        <div class="product-action-1 show">
+                                                            <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                                onclick="addToCart('<%= product[i].id %>','<%= product[i].flavour[0] %>','<%= product[i].weight[0] %>','<%= product[i].quantity %>')"><i
+                                                                    class="fi-rs-shopping-bag-add"></i></a>
+                                                        </div>
+                                                        <% } %>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <% } else { %>
+                                            <!-- Handle cases where 'images' property is missing or insufficient -->
+                                            <p>No images available for this product.</p>
+                                            <% } %>
+                                                <% } %>
+
+                                                    <% } else { %>
+                                                        <tr>
+                                                            <td colspan="2">Product not found</td>
+                                                        </tr>
+                                                        <% } %>
+                        </div>
+                        <script>
+                            function addToCart(id, flavourr, weightt, quantityy) {
+
+
+
+                                const flavour = String(flavourr)
+                                const weight = parseInt(weightt)
+
+
+                                console.log("flaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaavor" + flavour, weight);
+                                //     let cartCountValue = parseInt($("#cart-Count").text());
+                                //    cartCountValue += 1;
+
+                                //    // Set the incremented value back to the span
+                                //    $("#cart-Count").text(cartCountValue);
+
+
+                                $.ajax({
+                                    url: `/addtoCart?id=${id}&flavour=${flavour}&weight=${weight}`,
+                                    method: "get",
+                                    success: (response) => {
+
+                                        if (response.status) {
+                                            Swal.fire({
+                                                title: 'ADD TO CART',
+                                                text: 'Product Added to cart',
+                                                icon: 'success',
+                                                timer: 3000,
+                                                showConfirmButton: false, // This removes the button
+                                            });
+
+                                        } else {
+                                            res.json({ status: false })
+
+                                        }
+
+
+                                    }
+                                })
+
+
+                                //     $(document).ready(function(){
+                            }
+                        </script>
+                    </div>
+                </div>
+        </section style="background-color:black;">
+        <% for(let i=0 ;i < banner.length ;i++){%>
+            <% if(banner[i].title == 'footer'){%>
+        <section class="banner-2 section-padding pb-0">
+            <div class="container">
+                
+                <div class="banner-img banner-big wow fadeIn animated f-none">
+                  
+                    <img src="/admin/assets/imgs/category/<%= banner[i].image %>" alt="Banner Image">
+                    <!-- <div class="banner-text d-md-block d-none">
+                        <h4 class="mb-15 mt-40 text-brand">Repair Services</h4>
+                        <h1 class="fw-600 mb-20">We're an Apple <br>Authorised Service Provider</h1>
+                        <a href="shop-grid-right.html" class="btn">Learn More <i class="fi-rs-arrow-right"></i></a>
+                       
+                    </div> -->
+                   
+                </div>
+              
+            </div>
+        </section>
+        <%}%>
+        <%}%>
+        <section class="popular-categories section-padding mt-15 mb-25">
+            <div class="container wow fadeIn animated">
+                <h3 class="section-title mb-20"><span>Popular</span> Brands</h3>
+                <div class="carausel-6-columns-cover position-relative">
+                    <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-arrows">
+                    </div>
+                    <div class="carausel-6-columns" id="carausel-6-columns">
+                        <% if ( brands.length> 0) { %>
+                            <% for (let i=0; i < brands.length; i++) { %>
+                                <% if (brands[i].images.length>=1) { %>
+
+                                    <div class="card-1">
+                                        <figure class=" img-hover-scale overflow-hidden">
+                                            <a href="shop-grid-right.html"><img
+                                                    src="/admin/assets/imgs/category/<%= brands[i].images %>"
+                                                    alt=""></a>
+                                        </figure>
+                                        <h5><a href="shop-grid-right.html">
+                                                <%= brands[i].name %>
+                                            </a></h5>
+                                    </div>
+                                    <%}else{%>
+                                        <p>image not found</p>
+                                        <%}%>
+                                            <%}%>
+                                                <%}else{%>
+                                                    <p>brand not found</p>
+                                                    <%}%>
+                                                      
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="banners mb-15" >
+            <div class="container">
+                <div class="row">
+                    <% for(let i=0;i< banner.length ;i++){%>
+                        <% if(banner[i].title == 'card'){%>
+                    <div class="col-lg-4 col-md-6">
+                        <div class="banner-img wow fadeIn animated">   
+                          <a href="">  <img src="/admin/assets/imgs/category/<%= banner[i].image %>" alt="Banner Image"></a>
+                            <!-- <div class="banner-text">
+                                <span>Smart Offer</span>
+                                <h4>Save 20% on <br>Woman Bag</h4>
+                                <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                            </div> -->
+                        </div>
+                    </div>
+                    <%}%>
+                    <%}%>
+                </div>
+            </div>
+        </section>
+        
+        <section class="bg-grey-9 section-padding">
+            <div class="container pt-25 pb-25">
+                <div class="heading-tab d-flex">
+                    <div class="heading-tab-left wow fadeIn animated">
+                        <h3 class="section-title mb-20"><span>Monthly</span> Best Sell</h3>
+                    </div>
+                    <div class="heading-tab-right wow fadeIn animated">
+                        <ul class="nav nav-tabs right no-border" id="myTab-1" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="nav-tab-one-1" data-bs-toggle="tab"
+                                    data-bs-target="#tab-one-1" type="button" role="tab" aria-controls="tab-one"
+                                    aria-selected="true">Featured</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-two-1" data-bs-toggle="tab"
+                                    data-bs-target="#tab-two-1" type="button" role="tab" aria-controls="tab-two"
+                                    aria-selected="false">Popular</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="nav-tab-three-1" data-bs-toggle="tab"
+                                    data-bs-target="#tab-three-1" type="button" role="tab" aria-controls="tab-three"
+                                    aria-selected="false">New added</button>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-3 d-none d-lg-flex">
+                        <div class="banner-img style-2 wow fadeIn animated">
+                            <img src="user/assets/imgs/theme/repsup logo.jpg" style="height:380px; width: 350px;" alt="">
+                            <!-- <div class="banner-text hover-boder" >
+                                <span>Top Selling Products</span>
+                                <h4 class="mt-5">Save upto 30% on <br>Protein</h4>
+                                <a href="shop-grid-right.html" class="text-white bolder">Shop Now <i
+                                        class="fi-rs-arrow-right " ></i></a>
+                            </div> -->
+                        </div>
+                    </div>
+                    
+                    <div class="col-lg-9 col-md-12">
+                        <div class="tab-content wow fadeIn animated" id="myTabContent-1">
+                            <div class="tab-pane fade show active" id="tab-one-1" role="tabpanel"
+                                aria-labelledby="tab-one-1">
+                                <div class="carausel-4-columns-cover arrow-center position-relative">
+                                    <div class="slider-arrow slider-arrow-2 carausel-4-columns-arrow"
+                                        id="carausel-4-columns-arrows"></div>
+                                    <div class="carausel-4-columns carausel-arrow-center" id="carausel-4-columns">
+                                        <% if ( product.length> 0) { %>
+                                            <% for (let i=0; i < product.length; i++) { %>
+                                                <% if (product[i].images && product[i].images.length>= 1) { %>
+
+                                        <div class="product-cart-wrap">
+                                            <div class="product-img-action-wrap">
+                                                <div class="product-img product-img-zoom">
+                                                    <a href="/productD?id=<%= product[i].id %>">
+                                                        <img class="default-img"
+                                                            src="/admin/assets/imgs/category/<%= product[i].images[0] %>" alt="">
+                                                        <img class="hover-img"
+                                                            src="/admin/assets/imgs/category/<%= product[i].images[0] %>" alt="">
+                                                    </a>
+                                                </div>
+                                                <div class="product-action-1">
+                                                    <a aria-label="Quick view" class="action-btn small hover-up"
+                                                        data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                        <i class="fi-rs-eye"></i></a>
+                                                    <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                        href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                    <a aria-label="Compare" class="action-btn small hover-up"
+                                                        href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                                </div>
+                                                <div class="product-badges product-badges-position product-badges-mrg">
+                                                    <span class="hot">Hot</span>
+                                                </div>
+                                            </div>
+                                            <div class="product-content-wrap">
+                                                <div class="product-category">
+                                                    <a href="shop-grid-right.html"><%= product[i].offer %>%off</a>
+                                                </div>
+                                                
+                                                <h2><a href="/productD?id=<%= product[i].id %>" id="pTitle"><%= product[i].title.substring(0,18)%>..</a></h2>
+                                                <div class="rating-result" title="90%">
+                                                    <span>
+                                                        <span>70%</span>
+                                                    </span>
+                                                </div>
+                                                <div class="product-price">
+                                                    <% if(product[i].offer> 0){ %>
+                                                            <span>₹<%= Math.round((product[i].price - (product[i].price
+                                                                    * product[i].offer) / 100)).toString() %> </span>
+                                                            <span class="old-price">₹<%= Math.round(product[i].price) %>
+                                                            </span>
+                                                            <% }else{%>
+                                                                <span>₹<%= Math.round(product[i].price) %> </span>
+                                                                <% } %>
+                                                </div>
+                                                <div class="product-action-1 show">
+                                                    <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                        href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <%}%>
+                                        <%}%>
+                                        <%}%>
+                                       
+                                        
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                            <!--End tab-pane-->
+                        </div>
+                        <!--End tab-content-->
+                    </div>
+                    <!--End Col-lg-9-->
+                </div>
+            </div>
+        </section>
+        
+       
+        
+    </main>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <%- include('../layouts/footer.ejs') %>

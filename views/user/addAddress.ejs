@@ -1,0 +1,211 @@
+<%- include('../layouts/header.ejs',{userSession,cartLength,category}) %>
+    
+
+
+    <main class="main">
+        <div class="page-header breadcrumb-wrap">
+            <div class="container">
+                <div class="breadcrumb">
+                    <a href="/home" rel="Follow">Home</a>
+                    <span></span> cart
+                    <span></span>Add  Address
+                </div>
+            </div>
+        </div>
+        <section class="pt-150 pb-150">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-10 m-auto">
+                        <div class="row justify-content-center">
+                           
+                            <div class="col-md-8">
+                                <div class="tab-content dashboard-content">
+                                   
+                                       
+
+                                        <!-- card for the dash bord user simple details -->
+                                           
+                                        <div class="card">
+                                            <div class="card-header">
+                                                <h5> Add Address</h5>
+                                            </div>
+                                            <div class="card-body">
+                                               
+                                                <form method="post" action="/updateAddress?wt=<%= wt %>" onsubmit="return validateForm()" >
+                                                    <div class="row">
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Full Name</h5></label>
+                                                            <input  class="form-control square"  name="fullName" type="text" >
+                                                            <div class="error-message" id="name-error" style="color: red;"></div>
+                                                            
+                                                        </div>
+                                                        
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Mobile number</h5></label>
+                                                            <input  class="form-control square"  name="mobile" type="number">
+                                                            <div class="error-message" id="number-error" style="color: red;"></div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Address(area & street)</h5></label>
+                                                            <textarea  class="form-control square" name="address"  type="text"></textarea>
+                                                            <div class="error-message" id="address-error" style="color: red;"></div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Pincode</h5></label>
+                                                            <input  class="form-control square"  name="pinCode" type="number">
+                                                            <div class="error-message" id="pincode-error" style="color: red;"></div>
+                                                        </div>
+                                                        <div class="form-group col-md-12">
+                                                            <label><h5>Landmark</h5></label>
+                                                            <input  class="form-control square" name="landMark" type="text">
+                                                            <div class="error-message" id="landmark-error" style="color: red;"></div>
+                                                        </div>
+                                
+                                                        <div class="form-group col-md-6">
+                                                            <label><h5>Town/City</h5> </label>
+                                                            <input  class="form-control square" name="townCity"  type="text">
+                                                            <div class="error-message" id="city-error" style="color: red;"></div>
+                                                        </div> 
+                                                        <div class="form-group col-md-6">
+                                                            <label><h5>State</h5></label>
+                                                           
+                                                            <select  class="form-control square" name="state">
+                                                                <option value="">--Select State--</option>
+                                                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                                                <option value="Assam">Assam</option>
+                                                                <option value="Bihar">Bihar</option>
+                                                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                                                <option value="Goa">Goa</option>
+                                                                <option value="Gujarat">Gujarat</option>
+                                                                <option value="Haryana">Haryana</option>
+                                                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                                                <option value="Jharkhand">Jharkhand</option>
+                                                                <option value="Karnataka">Karnataka</option>
+                                                                <option value="Kerala">Kerala</option>
+                                                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                                                <option value="Maharashtra">Maharashtra</option>
+                                                                <option value="Manipur">Manipur</option>
+                                                                <option value="Meghalaya">Meghalaya</option>
+                                                                <option value="Mizoram">Mizoram</option>
+                                                                <option value="Nagaland">Nagaland</option>
+                                                                <option value="Odisha">Odisha</option>
+                                                                <option value="Punjab">Punjab</option>
+                                                                <option value="Rajasthan">Rajasthan</option>
+                                                                <option value="Sikkim">Sikkim</option>
+                                                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                                                <option value="Telangana">Telangana</option>
+                                                                <option value="Tripura">Tripura</option>
+                                                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                                                <option value="Uttarakhand">Uttarakhand</option>
+                                                                <option value="West Bengal">West Bengal</option>
+                                                                <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+                                                                <option value="Chandigarh">Chandigarh</option>
+                                                                <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+                                                                <option value="Lakshadweep">Lakshadweep</option>
+                                                                <option value="Delhi">Delhi</option>
+                                                                <option value="Puducherry">Puducherry</option>
+                                                            </select>
+                                                            <div class="error-message" id="state-error" style="color: red;"></div>
+                                                        </div>
+                                                       
+                                                        </div>
+                                                     
+                                                       
+                                                        <div class="form-group col-md-6">
+                                                            <label for="addressType"><h5>Address Type</h5></label>
+                                                            <select id="addressType" class="form-control square" name="addressType" >
+                                                                <option value="">Select Address Type</option>
+                                                                <option value="Home">Home</option>
+                                                                <option value="Work">Work</option>
+                                                                <option value="Other">Other</option>
+                                                            </select>
+                                                        </div>
+                                                        <div class="error-message" id="type-error" style="color: red;"></div>
+                                                        <input type="hidden" name="id" >
+                                                       
+                                                        <div class="col-md-12">
+                                                            <button type="submit" class="btn btn-fill-out submit" name="submit" value="Submit">Save</button>
+                                                        </div>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>
+function validateForm(){
+
+    clearErrorMessage();
+
+const name = document.getElementsByName('fullName')[0].value;
+const mobile = document.getElementsByName('mobile')[0].value;
+const address = document.querySelector('textarea[name="address"]').value;
+const pinCode = document.getElementsByName('pinCode')[0].value;
+const landMark = document.getElementsByName('landMark')[0].value;
+const cityElement = document.getElementsByName('townCity')[0];
+    const city = cityElement ? cityElement.value : '';
+const state = document.getElementsByName('state')[0].value;
+const addressType = document.getElementById('addressType').value;
+
+let isValid = true;
+
+console.log(name+","+mobile+""+address+""+pinCode+""+landMark+""+city+""+state+""+addressType+"yooooooooooooooooooooo")
+
+if(name.trim() === ''){
+    isValid = false;
+    displayErrorMessage('name-error','Please fill this field');
+}
+if(mobile.trim() ==='' || isNaN(mobile)){
+    isValid = false;
+    displayErrorMessage('number-error','Please provide a valid Mobile Number')
+}
+if(address.trim() === ''){
+    isValid = false;
+    displayErrorMessage('address-error','Please fill this field');
+}
+if(pinCode.trim() === ''){
+    isValid = false;
+    displayErrorMessage('pincode-error','Please fill out this field');
+}
+if(landMark.trim() === ''){
+    isValid = false;
+    displayErrorMessage('landmark-error','Please fill out this field');
+}
+if(city.trim() === ''){
+    isValid = false;
+    displayErrorMessage('city-error','Please fill out this field');
+}
+if(state.trim() === ''){
+    isValid = false;
+    displayErrorMessage('state-error','Please fill out this field');
+}
+if(addressType.trim() === ''){
+    isValid = false;
+    displayErrorMessage('type-error','Please fill out this field');
+}
+
+return isValid
+
+}
+function displayErrorMessage(errorId,message){
+    const errorDiv = document.getElementById(errorId);
+    errorDiv.innerText = message;
+}
+function clearErrorMessage(){
+    const errorDiv = document.querySelectorAll('error-message');
+    errorDiv.forEach((item)=>{
+        item.innerText = '';
+    });
+}
+        </script>
+
+
+
+    <%- include('../layouts/footer.ejs') %>
